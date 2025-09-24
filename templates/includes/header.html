@@ -1,0 +1,10 @@
+<header>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        {% if current_user.is_authenticated and current_user.role == 'admin' %}
+            <a href="{{ url_for('admin_dashboard') }}">Admin Panel</a>
+        {% endif %}
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+</header>

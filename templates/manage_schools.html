@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Manage Schools{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Manage Schools</h1>
+    <form method="POST" class="form-group">
+        <label for="school_name">New School Name:</label>
+        <input type="text" name="school_name" id="school_name" class="form-control" required>
+        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Add School</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Existing Schools</h3>
+    {% if schools %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for school in schools %}
+            <tr>
+                <td>{{ school.id }}</td>
+                <td>{{ school.name }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_school', school_id=school.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No schools have been created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

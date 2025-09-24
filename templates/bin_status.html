@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Bin Status{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Bin Status</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Bin ID</th>
+                <th>Location</th>
+                <th>Current Status</th>
+                <th>Update Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bin in bins %}
+            <tr>
+                <td>{{ bin.bin_id }}</td>
+                <td>{{ bin.location }}</td>
+                <td><span class="badge {{ 'badge-success' if bin.status == 'ok' else 'badge-danger' }}">{{ bin.status.capitalize() }}</span></td>
+                <td>
+                    <form method="POST" action="{{ url_for('update_bin_status', bin_id=bin.id) }}">
+                        <select name="status" class="form-control" style="width: auto; display: inline-block;">
+                            <option value="ok" {% if bin.status == 'ok' %}selected{% endif %}>OK</option>
+                            <option value="full" {% if bin.status == 'full' %}selected{% endif %}>Full</option>
+                            <option value="broken" {% if bin.status == 'broken' %}selected{% endif %}>Broken</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

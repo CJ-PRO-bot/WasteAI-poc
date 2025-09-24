@@ -1,0 +1,7 @@
+Flask
+Flask-Login
+SQLAlchemy
+Werkzeug
+TensorFlow
+NumPy
+Pillow

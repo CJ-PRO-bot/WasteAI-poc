@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Manage Challenges{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Manage Challenges</h1>
+    <a href="{{ url_for('create_challenge') }}" class="btn btn-primary">Create New Challenge</a>
+</div>
+
+<div class="card">
+    <h3>Existing Challenges</h3>
+    {% if challenges %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Reward</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for challenge in challenges %}
+            <tr>
+                <td>{{ challenge.title }}</td>
+                <td>{{ challenge.points_reward }} points</td>
+                <td>{{ challenge.start_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ challenge.end_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No challenges have been created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
