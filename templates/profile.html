@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="card profile-card">
+    <img src="{{ url_for('static', filename='profile_pics/' + user.profile_picture) }}" alt="Profile Picture" class="profile-img">
+    <h2>{{ user.username }}</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Total Points:</strong> {{ user.points }}</p>
+    <p><strong>Role:</strong> {{ user.role.capitalize() }}</p>
+    <a href="{{ url_for('upload_profile_picture') }}" class="btn btn-primary btn-sm">Change Profile Picture</a>
+</div>
+
+<div class="card">
+    <h3>My Achievements</h3>
+    {% if achievements %}
+    <ul class="list-group">
+        {% for achievement in achievements %}
+        <li class="list-group-item">{{ achievement_descriptions.get(achievement, achievement) }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No achievements unlocked yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>My Reports</h3>
+    {% if reports %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.report_type }}</td>
+                <td>{{ report.description }}</td>
+                <td><span class="badge {{ 'badge-success' if report.status == 'approved' else 'badge-warning' }}">{{ report.status.capitalize() }}</span></td>
+                <td>{{ report.timestamp.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You have not submitted any reports yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

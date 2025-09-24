@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Classification Result{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Classification Result</h1>
+        <p>The AI classified your item as:</p>
+        <h2>{{ prediction }}</h2>
+        <a href="{{ url_for('classify_waste') }}" class="btn btn-primary">Classify another item</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+    </div>
+{% endblock %}

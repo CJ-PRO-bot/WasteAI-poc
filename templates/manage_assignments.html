@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Manage Assignments{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Manage Assignments</h1>
+    <a href="{{ url_for('assign_randomly') }}" class="btn btn-secondary">Assign All Users to Schools Randomly</a>
+</div>
+
+<div class="card">
+    <h3>Manually Assign Users to Schools</h3>
+    <form method="POST" action="{{ url_for('assign_user_manually') }}">
+        <div class="form-group">
+            <label for="user_id">User:</label>
+            <select name="user_id" id="user_id" class="form-control" required>
+                <option value="">-- Select a User --</option>
+                {% for user in unassigned_users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="school_id">School:</label>
+            <select name="school_id" id="school_id" class="form-control" required>
+                <option value="">-- Select a School --</option>
+                {% for school in schools %}
+                <option value="{{ school.id }}">{{ school.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Assign Manually</button>
+    </form>
+</div>
+{% endblock %}

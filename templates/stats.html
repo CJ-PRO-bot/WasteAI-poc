@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Statistics{% endblock %}
+{% block content %}
+<h1>Site Statistics</h1>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <h3>Total Users</h3>
+            <h1>{{ total_users }}</h1>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <h3>Total Reports</h3>
+            <h1>{{ total_reports }}</h1>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <h3>Voluntary Reports</h3>
+            <h1>{{ voluntary_reports }}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Reports Per School</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>School Name</th>
+                <th>Reports Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for school_name, count in reports_per_school %}
+            <tr>
+                <td>{{ school_name }}</td>
+                <td>{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

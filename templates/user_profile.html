@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Profile</title>
+</head>
+<body>
+    <h1>{{ user.username }}'s Profile</h1>
+    
+    <!-- Display the user's profile picture -->
+    <img src="{{ url_for('static', filename='profile_pics/' + user.profile_picture) }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+
+    <p>Role: {{ user.role }}</p>
+    <p>Total Points: <strong>{{ user.points }}</strong></p>
+
+    <hr>
+    <h2>Achievements</h2>
+    {% if achievements|length > 0 %}
+        <ul>
+        {% for achievement in achievements %}
+            <li>
+            {% if achievement == 'first_approved_report' %}
+                🏆 First Report Approved!
+            {% else %}
+                {{ achievement }}
+            {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+    <p>{{ user.username }} has not unlocked any achievements yet.</p>
+    {% endif %}
+
+    <hr>
+    <h2>Approved Reports</h2>
+    {% if reports|length > 0 %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.id }}</td>
+                <td>{{ report.report_type }}</td>
+                <td>{{ report.description }}</td>
+                <td>{{ report.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No approved reports to display for this user.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('dashboard') }}">Go back to Dashboard</a></p>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Manage Bins{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Manage Bins</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="bin_id">Bin ID:</label>
+            <input type="text" name="bin_id" id="bin_id" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="school_id">Assign to School (Optional):</label>
+            <select name="school_id" id="school_id" class="form-control">
+                <option value="">-- Select a School --</option>
+                {% for school in schools %}
+                <option value="{{ school.id }}">{{ school.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Bin</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Existing Bins</h3>
+    {% if bins %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Bin ID</th>
+                <th>Location</th>
+                <th>School</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bin in bins %}
+            <tr>
+                <td>{{ bin.id }}</td>
+                <td>{{ bin.bin_id }}</td>
+                <td>{{ bin.location }}</td>
+                <td>{{ bin.school.name if bin.school else 'Unassigned' }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_bin', bin_id=bin.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No bins have been created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

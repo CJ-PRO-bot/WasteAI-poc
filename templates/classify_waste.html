@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Waste Classifier{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Waste Classifier</h1>
+        <p>Upload a picture of a waste item to see how our AI classifies it.</p>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('classify_waste') }}">
+            <div class="form-group">
+                <label for="file">Choose Image:</label>
+                <input type="file" name="file" id="file" class="form-control-file" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Classify</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Messages{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Public Messages</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="message_text">Send a Message:</label>
+            <textarea name="message_text" id="message_text" class="form-control" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+
+<div class="card" style="margin-top: 2rem;">
+    <h3>Message Board</h3>
+    <div class="message-board">
+        {% for message in messages %}
+        <div class="message-item">
+            <p><strong>{{ message.author.username }}</strong> on {{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p>{{ message.text }}</p>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

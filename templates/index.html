@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="card text-center">
+    <h1>Welcome to WasteAI ♻️</h1>
+    <p>Empowering communities to manage waste effectively.</p>
+    <a href="{{ url_for('login') }}" class="btn btn-primary">Log In to Get Started</a>
+    <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+</div>
+{% endblock %}

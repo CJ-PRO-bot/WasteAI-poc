@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 class="text-center mb-4">Admin Dashboard</h1>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <div class="card my-3">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">Admin Tools</h3>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('manage_schools') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-university me-2"></i> Manage Schools
+                        </a>
+                        <a href="{{ url_for('manage_bins') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-trash-alt me-2"></i> Manage Bins
+                        </a>
+                        <a href="{{ url_for('manage_challenges') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-trophy me-2"></i> Manage Challenges
+                        </a>
+                        <a href="{{ url_for('manage_assignments') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-clipboard-list me-2"></i> Manage Assignments
+                        </a>
+                        <a href="{{ url_for('stats') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-chart-bar me-2"></i> View Statistics
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-header">
+                    <h3>Pending Reports</h3>
+                </div>
+                <div class="card-body">
+                    {% if reports %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>User</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for report in reports %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ url_for('static', filename='uploads/' + report.image_url) }}" alt="Report Image" class="img-thumbnail" style="width: 100px;">
+                                    </td>
+                                    <td>{{ report.report_type }}</td>
+                                    <td>{{ report.description }}</td>
+                                    <td>{{ report.author.username }}</td>
+                                    <td>
+                                        <form action="{{ url_for('approve_report', report_id=report.id) }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                        </form>
+                                        <form action="{{ url_for('refuse_report', report_id=report.id) }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn btn-danger btn-sm">Refuse</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-center">No pending reports at this time.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-header">
+                    <h3>Schools</h3>
+                </div>
+                <div class="card-body">
+                    {% if schools %}
+                    <ul class="list-group">
+                        {% for school in schools %}
+                        <li class="list-group-item">{{ school.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-center">No schools registered yet. <a href="{{ url_for('manage_schools') }}">Add one here.</a></p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-header">
+                    <h3>Users</h3>
+                </div>
+                <div class="card-body">
+                    {% if users %}
+                    <ul class="list-group">
+                        {% for user in users %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ user.username }} ({{ user.role }}) - {{ user.email }}
+                            {% if user.school %}
+                                <span class="badge bg-primary rounded-pill">{{ user.school.name }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary rounded-pill">Unassigned</span>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-center">No users registered.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
